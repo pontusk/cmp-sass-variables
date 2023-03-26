@@ -2,17 +2,18 @@
 
 Nvim cmp source for Sass variables. 
 
-If there's a `_variables.scss` file, it is assumed to be configured as
-globally available without explicit imports. I would like to make this
-optional and would appreciate tips on how to add user options to
-completion sources. 
+If `vim.g.sass_variables_file` is set, variables in that file will
+available globally. Set it to a file name. The working directory will
+be searched for a file with that name.
 
-Variables are found in the `_variables.scss` file and recursively in the
-current file and any imported files.
+Variables are also found in the current file and any imported files.
 
 ## Setup
 
 ```lua
+-- optionally
+vim.g.sass_variables_file = "_variables.scss"
+
 require'cmp'.setup {
   sources = {
     { name = 'sass-variables' }
