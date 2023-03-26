@@ -44,8 +44,6 @@ function source.complete(self, _, callback)
             table.insert(items, v)
         end
 
-        print(vim.inspect(items))
-
         if type(items) ~= "table" then
             return callback()
         end
