@@ -32,6 +32,7 @@ function source.complete(self, _, callback)
 
     if not self.cache[bufnr] then
         local variables_file = utils.find_file("_variables.scss")
+        print(vim.inspect(variables_file))
         if (variables_file) then
             global_items = utils.get_sass_variables(variables_file)
         end
