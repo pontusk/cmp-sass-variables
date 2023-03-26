@@ -26,10 +26,12 @@ end
 function M.get_sass_variables(file)
     local variables = {}
     local content = vim.fn.readfile(file)
+    local used = {}
+
     for _, line in ipairs(content) do
-        local name, value = line:match("^%s*%$(.*):%s*(.*)%s*;")
+        local name = line:match("^%s*%$(.*):")
         local imports = line:match("^%s*@import%s*(.*)%s*;")
-        if name and value then
+        if name and not used[name] then
             table.insert(
                 variables,
                 {
@@ -38,6 +40,7 @@ function M.get_sass_variables(file)
                     kind = cmp.lsp.CompletionItemKind.Variable
                 }
             )
+            used[name] = true
         elseif imports then
             for import in imports:gmatch("[^,%s]+") do
                 -- remove quotes if any
