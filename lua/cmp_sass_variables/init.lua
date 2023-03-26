@@ -30,9 +30,11 @@ function source.complete(self, _, callback)
     local file_path = vim.fn.expand("%:p")
 
     if not self.cache[bufnr] then
-        local variables_file = utils.find_file("_variables.scss")
-        if (variables_file) then
-            global_items = utils.get_sass_variables(variables_file)
+        if (vim.g.sass_variables_file) then
+            local variables_file = utils.find_file("_variables.scss")
+            if (variables_file) then
+                global_items = utils.get_sass_variables(vim.g.sass_variables_file)
+            end
         end
 
         items = utils.get_sass_variables(file_path)
