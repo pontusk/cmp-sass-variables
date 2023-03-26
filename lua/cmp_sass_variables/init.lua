@@ -8,7 +8,6 @@ function source.new()
 end
 
 function source.is_available()
-    -- check if the file has .sass or .scss extension
     return vim.bo.filetype == "scss" or vim.bo.filetype == "sass"
 end
 
@@ -32,19 +31,18 @@ function source.complete(self, _, callback)
 
     if not self.cache[bufnr] then
         local variables_file = utils.find_file("_variables.scss")
-        print(vim.inspect(variables_file))
         if (variables_file) then
             global_items = utils.get_sass_variables(variables_file)
         end
 
         items = utils.get_sass_variables(file_path)
 
-        -- if there are global variables add them to the locally linked variables
-        if type(global_items) ~= "table" then
-            for _, v in ipairs(global_items) do
-                table.insert(items, v)
-            end
+        -- if there are global variables add them to the other items
+        for _, v in ipairs(global_items) do
+            table.insert(items, v)
         end
+
+        print(vim.inspect(items))
 
         if type(items) ~= "table" then
             return callback()

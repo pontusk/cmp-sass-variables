@@ -47,10 +47,7 @@ function M.get_sass_variables(file)
                     import = "_" .. import .. ".scss"
                 end
                 local complete_filepath = M.join_paths(file:gsub("(.*)/.*", "%1"), import)
-                -- find the file in runtimepath
                 local found_file = vim.fn.findfile(complete_filepath)
-                print(vim.inspect(complete_filepath))
-                print(vim.inspect(found_file))
                 if found_file ~= "" then
                     -- recursively get variables from imported file
                     local imported_variables = M.get_sass_variables(found_file)
@@ -75,7 +72,7 @@ function M.find_file(filename)
             "find . -type d -name node_modules -prune -o -name '" .. filename .. "' -print"
         }
     )
-    return files[0]
+    return files[1]
 end
 
 return M
