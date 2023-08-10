@@ -28,7 +28,7 @@ function M.get_sass_variables(file)
     local content = vim.fn.readfile(file)
     local used = {}
 
-    for _, line in ipairs(content) do
+    for _, line in ipairs(content or {}) do
         local name = line:match("^%s*%$(.*):")
         local imports = line:match("^%s*@import%s*(.*)%s*;")
         if name and not used[name] then
@@ -66,7 +66,7 @@ function M.get_sass_variables(file)
     return variables
 end
 
-function M.find_file(filename)
+function M.find_files(filename)
     local files =
         require("telescope.utils").get_os_command_output(
         {
@@ -75,7 +75,7 @@ function M.find_file(filename)
             "find . -type d -name node_modules -prune -o -name '" .. filename .. "' -print"
         }
     )
-    return files[1]
+    return files
 end
 
 return M
